@@ -13,3 +13,13 @@ Note: This program will dynamically read the FIRST excel sheet, grab the keys fo
 There is a custom toolbar button that was created (send data button). Currently, this button will console.log out the columns and the row data but this can easily be changed to send the json data to an api to save data into a database (example postgres)
 
 [Sample node api making CRUD operations](https://www.youtube.com/watch?v=DihOP19LQdg)
+
+This project can be ran with:
+
+```bash
+yarn install
+```
+
+```bash
+yarn run dev
+```
