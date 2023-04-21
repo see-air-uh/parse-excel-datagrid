@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import NoRows from "./comonents/NoRows";
+// App.tsx
+import React, { useState } from "react";
+import { DataGrid, GridColDef, GridToolbarContainer } from "@mui/x-data-grid";
 
-function App() {
-  const [count, setCount] = useState(0)
+import "./App.css";
+import { Box, Button } from "@mui/material";
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface SendDataProps {
+  rowData: unknown[];
+  columnData: unknown[];
 }
 
-export default App
+const SendData: React.FC<SendDataProps> = ({ rowData, columnData }) => {
+  const handleButtonPress = () => {
+    console.log(rowData);
+    console.log(columnData);
+    // Implement logic to send parsed data
+  };
+  return (
+    <GridToolbarContainer>
+      <Button onClick={handleButtonPress} variant="outlined">
+        Send Data
+      </Button>
+    </GridToolbarContainer>
+  );
+};
+
+const App: React.FC = () => {
+  const [columns, setColumns] = useState<GridColDef[]>([]);
+  const [rows, setRows] = useState<unknown[]>([]);
+
+  return (
+    <Box className="App" sx={{ width: "80vw" }}>
+      <Box
+        style={{
+          height: 400,
+          width: "100%",
+          marginTop: 16,
+          background: "white",
+        }}
+      >
+        <DataGrid
+          slots={{ noRowsOverlay: NoRows, toolbar: SendData }}
+          slotProps={{
+            toolbar: {
+              rowData: rows,
+              columnData: columns,
+            },
+            noRowsOverlay: {
+              onColumnsProcessed: setColumns,
+              onFileProcessed: setRows,
+            },
+          }}
+          rows={rows}
+          columns={columns}
+        />
+      </Box>
+    </Box>
+  );
+};
+export default App;
